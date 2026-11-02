@@ -24756,5 +24756,19 @@
 {"id":24760,"centro":"Ape Salud Mental","codigo":"","practica":"ACOMPAÑAMIENTO TERAPEUTICO C/ ENFERMERIA","valor":"","nota":"c/presupuesto"},
 {"id":24761,"centro":"Ape Salud Mental","codigo":"","practica":"ENFERMERO / CUIDADOR","valor":"","nota":"c/presupuesto"},
 {"id":24762,"centro":"Ape Salud Mental","codigo":"","practica":"REHABILITACION TMS","valor":"","nota":"c/presupuesto"},
-{"id":24763,"centro":"Ape Salud Mental","codigo":"","practica":"TERAPIA OCUPACIONAL","valor":"","nota":"c/presupuesto"}
+{"id":24763,"centro":"Ape Salud Mental","codigo":"","practica":"TERAPIA OCUPACIONAL","valor":"","nota":"c/presupuesto"},
+{"id":24764,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"PRESTACIONES","valor":46266,"nota":""},
+{"id":24765,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"nternación adulto en habitación con baño privado","valor":154000,"nota":""},
+{"id":24766,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Internación pacientes duales","valor":210000,"nota":""},
+{"id":24767,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Internación infantojuvenil","valor":269100,"nota":""},
+{"id":24768,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Cama acompañante","valor":105847,"nota":""},
+{"id":24769,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Internación rehabilitación mediana complejidad","valor":355144,"nota":""},
+{"id":24770,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Internación paliativos","valor":454284,"nota":""},
+{"id":24771,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Hospital de día jornada simple","valor":76419,"nota":""},
+{"id":24772,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Hospital de día jornada completa","valor":103011,"nota":""},
+{"id":24773,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Hospital de día virtual","valor":51893,"nota":""},
+{"id":24774,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Consulta psiquiatría adulto","valor":42598,"nota":""},
+{"id":24775,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Consulta psiquiatría infanto","valor":51893,"nota":""},
+{"id":24776,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Reserva de cama por permisos de salida/intercurrencias/continuidad de cuidados","valor":1,"nota":""},
+{"id":24777,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Medicación a valores Mercado","valor":"","nota":"SI"}
 ]}
