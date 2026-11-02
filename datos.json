@@ -24768,5 +24768,19 @@
 {"id":24772,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Hospital de día jornada completa","valor":103011,"nota":""},
 {"id":24773,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Hospital de día virtual","valor":51893,"nota":""},
 {"id":24774,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Consulta psiquiatría adulto","valor":42598,"nota":""},
-{"id":24775,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Consulta psiquiatría infanto","valor":51893,"nota":""}
+{"id":24775,"centro":"Clinica San Jorge Rehabilitacion Mental","codigo":"","practica":"Consulta psiquiatría infanto","valor":51893,"nota":""},
+{"id":24776,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"330101","practica":"PSICOTERAPIA INDIVIDUAL POR SESION","valor":24616,"nota":""},
+{"id":24777,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"330135","practica":"PSICOLOGIA INFANTO JUVENIL","valor":34506,"nota":""},
+{"id":24778,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"330201","practica":"HOSPITAL DE DIA - JORNADA COMPLETA","valor":42109,"nota":""},
+{"id":24779,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"420101","practica":"CONSULTA CONSULTORIO","valor":30078,"nota":""},
+{"id":24780,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"420102","practica":"CONSULTA PSIQUIATRÍA JUVENIL","valor":37062,"nota":""},
+{"id":24781,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"420128","practica":"PSICOPEDAGOGIA","valor":28874,"nota":""},
+{"id":24782,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"420266","practica":"CONSULTA DE GUARDIA","valor":30078,"nota":""},
+{"id":24783,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"EVAD12","practica":"EVALUACION Y EMERG.DOMICILIARIA 12 HS.","valor":"","nota":"POR PPTO."},
+{"id":24784,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"HDIAIJ","practica":"HOSPITAL DE DIA INFANTO JUVENIL","valor":61138,"nota":""},
+{"id":24785,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"INTAC2","practica":"INTERNACION CON AC. INFANTO JUVENIL DUAL","valor":224056,"nota":""},
+{"id":24786,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"INTACO","practica":"INTERNACION CON AC. INFANTO JUVENIL AGUDO","valor":199945,"nota":""},
+{"id":24787,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"INTAGU","practica":"INTERNACION MODULO AGUDO","valor":129935,"nota":""},
+{"id":24788,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"INTDUA","practica":"INTERNACION MODULO DUAL","valor":144372,"nota":""},
+{"id":24789,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"","practica":"PSICODIAGNOSTICO, PSICOL. A DOMICILIO","valor":"","nota":"POR PPTO."}
 ]}
