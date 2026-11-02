@@ -24782,5 +24782,12 @@
 {"id":24786,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"INTACO","practica":"INTERNACION CON AC. INFANTO JUVENIL AGUDO","valor":199945,"nota":""},
 {"id":24787,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"INTAGU","practica":"INTERNACION MODULO AGUDO","valor":129935,"nota":""},
 {"id":24788,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"INTDUA","practica":"INTERNACION MODULO DUAL","valor":144372,"nota":""},
-{"id":24789,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"","practica":"PSICODIAGNOSTICO, PSICOL. A DOMICILIO","valor":"","nota":"POR PPTO."}
+{"id":24789,"centro":"Clinica Psiquiatrica Modelo del Sol","codigo":"","practica":"PSICODIAGNOSTICO, PSICOL. A DOMICILIO","valor":"","nota":"POR PPTO."},
+{"id":24790,"centro":"Modelo minnesota","codigo":"423301","practica":"Consulta Psiquiatrica","valor":37219,"nota":""},
+{"id":24791,"centro":"Modelo minnesota","codigo":"330101","practica":"Consulta psicologica","valor":28712,"nota":""},
+{"id":24792,"centro":"Modelo minnesota","codigo":"330403","practica":"Evaluacion Psiquiatrica en Internacion zona ramos mejia hasta 8,6 km","valor":132924,"nota":""},
+{"id":24793,"centro":"Modelo minnesota","codigo":"330410","practica":"HORA AT DIA HABIL (acompañante terapeutico)","valor":9514,"nota":""},
+{"id":24794,"centro":"Modelo minnesota","codigo":"450101","practica":"HORA AT DIA NO HABIL (acompañante terapeutico)","valor":10074,"nota":""},
+{"id":24795,"centro":"Modelo minnesota","codigo":"330407","practica":"Evaluacion Psicologica en internacion","valor":37937,"nota":""},
+{"id":24796,"centro":"Modelo minnesota","codigo":"330408","practica":"Evaluacion Psiquiatrica a partir de 8,6 km hasta 12 km","valor":143558,"nota":""}
 ]}
