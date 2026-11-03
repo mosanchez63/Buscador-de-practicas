@@ -405,7 +405,7 @@ function pctNum(t){ t=String(t||"").replace("%","").replace(/\s/g,"").replace(",
 function hoyISO(){ var d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function lastAum(c){ for(var i=S.hist.length-1;i>=0;i--) if(S.hist[i].centro===c) return S.hist[i]; return null; }
 function fechaCorta(iso){ var p=iso.split("-"); return Number(p[2])+" "+MESES[Number(p[1])-1].slice(0,3)+" "+p[0]; }
-$("bAum").addEventListener("click",function(){ openAum({centro:$("centro").value||"", pct:"", solo:"", excl:"consulta", red:"1", vig:true}); });
+$("bAum").addEventListener("click",function(){ openAum({centro:$("centro").value||"", pct:"", solo:"", excl:"", red:"1", vig:true}); });
 function openAum(st){
   var names=Object.keys(counts()).sort(function(a,b){return a.localeCompare(b)});
   var la=st.centro?lastAum(st.centro):null;
@@ -429,7 +429,7 @@ function openAum(st){
       '<div class="two"><div class="fld"><label for="aCen">Centro</label><select id="aCen" class="isel"><option value="">Elegí un centro</option>'+names.map(function(n){return '<option'+(n===st.centro?' selected':'')+'>'+esc(n)+'</option>'}).join("")+'</select>'+(la?'<small>Último aumento: '+String(la.pct).replace(".",",")+'% el '+fechaCorta(la.fecha)+'</small>':'')+'</div>'+
       '<div class="fld"><label for="aPct">Aumento (%)</label><input id="aPct" inputmode="decimal" placeholder="Ej.: 1,9" value="'+esc(st.pct)+'"><small>Para una baja, poné un número negativo.</small></div></div>'+
       '<div class="two"><div class="fld"><label for="aSolo">Solo prácticas que contengan</label><input id="aSolo" placeholder="Vacío = todas las del centro" value="'+esc(st.solo)+'"></div>'+
-      '<div class="fld"><label for="aExc">Dejar afuera las que contengan</label><input id="aExc" placeholder="Ej.: consulta" value="'+esc(st.excl)+'"><small>Separá varias palabras con espacio.</small></div></div>'+
+      '<div class="fld"><label for="aExc">Dejar afuera las que contengan</label><input id="aExc" value="'+esc(st.excl)+'"><small>Separá varias palabras con espacio.</small></div></div>'+
       '<div class="two"><div class="fld"><label for="aRed">Redondeo</label><select id="aRed" class="isel"><option value="1"'+(st.red==="1"?" selected":"")+'>Al peso</option><option value="10"'+(st.red==="10"?" selected":"")+'>A $10</option><option value="100"'+(st.red==="100"?" selected":"")+'>A $100</option></select></div>'+
       '<label class="chk" style="align-self:end"><input type="checkbox" id="aVig"'+(st.vig?" checked":"")+'><span>Cambiar la fecha de vigencia a hoy</span></label></div>'+
       (st.centro?'<div class="ipv"><table><thead><tr><th>Práctica</th><th class="n">Ahora</th><th class="n">Queda</th></tr></thead><tbody>'+(prev||'<tr><td colspan="3">Ninguna práctica con valor coincide.</td></tr>')+'</tbody></table></div>'+
