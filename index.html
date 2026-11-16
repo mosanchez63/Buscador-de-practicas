@@ -13,10 +13,9 @@
 <link rel="stylesheet" href="estilos.css">
 <style>
 /* Navegación entre secciones (igual que en traditum.html) */
-.hnav{margin-left:auto;display:flex;gap:6px;flex:none}
-.hnav a{height:32px;display:inline-flex;align-items:center;border:1px solid #5a6b85;border-radius:999px;padding:0 14px;color:#fff;text-decoration:none;font-size:13.5px;font-weight:500;white-space:nowrap}
-.hnav a:hover{border-color:#8fa0b8}
-.hnav a[aria-current]{background:var(--leaf);border-color:var(--leaf);font-weight:700}
+.hnav{margin-left:auto;display:flex;flex:none}
+.hnav a{height:34px;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--leaf);border-radius:999px;background:var(--leaf);padding:0 16px;color:#fff;text-decoration:none;font-size:13.5px;font-weight:700;white-space:nowrap}
+.hnav a:hover{filter:brightness(1.08)}
 @media (max-width:760px){.brandrow{flex-wrap:wrap}.hnav{margin-left:0;width:100%}.hnav a{flex:1;justify-content:center}}
 </style>
 </head>
@@ -43,7 +42,7 @@
         <h1>Buscador de prácticas</h1>
         <p id="vig">Valores vigentes al <b>—</b></p>
       </div>
-      <nav class="hnav" id="hnav" aria-label="Secciones"><a href="index.html" aria-current="page">Centros de DX</a><a href="traditum.html">Validador Traditum</a></nav>
+      <nav class="hnav" id="hnav" aria-label="Secciones"><a href="traditum.html">Ir a validador de Traditum →</a></nav>
     </div>
     <div class="qwrap">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
