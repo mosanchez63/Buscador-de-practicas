@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Validador Traditum · Buscador de prácticas SAMI</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="estilos.css">
+<style>
+/* Navegación entre secciones (igual que en index.html) */
+.hnav{margin-left:auto;display:flex;gap:6px;flex:none}
+.hnav a{height:32px;display:inline-flex;align-items:center;border:1px solid #5a6b85;border-radius:999px;padding:0 14px;color:#fff;text-decoration:none;font-size:13.5px;font-weight:500;white-space:nowrap}
+.hnav a:hover{border-color:#8fa0b8}
+.hnav a[aria-current]{background:var(--leaf);border-color:var(--leaf);font-weight:700}
+@media (max-width:760px){.brandrow{flex-wrap:wrap}.hnav{margin-left:0;width:100%}.hnav a{flex:1;justify-content:center}}
+/* Validador Traditum: usa la marca y el encabezado de estilos.css */
+:root{--req:#9a5b00;--req-bg:#fdf1dc}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--req:#f2c26b;--req-bg:#3a2c10}}
+main{gap:12px}
+.tchk{display:inline-flex;align-items:center;gap:8px;height:34px;border:1px solid #5a6b85;border-radius:999px;padding:0 14px;font-size:13.5px;color:#fff;cursor:pointer;user-select:none}
+.tchk:hover{border-color:#8fa0b8}
+.tchk input{width:16px;height:16px;accent-color:var(--leaf);cursor:pointer;margin:0}
+.tnote{font-size:13.5px;color:var(--muted)}
+.tcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.tcard header{display:flex;gap:14px;align-items:baseline;padding:12px 16px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.tcod{font-family:var(--font-display);font-weight:700;font-size:17px;font-variant-numeric:tabular-nums;color:var(--accent);white-space:nowrap}
+.tnom{font-weight:500;min-width:0;overflow-wrap:anywhere}
+.trow{display:grid;grid-template-columns:minmax(0,1.6fr) 120px 190px 120px minmax(0,1fr);gap:14px;align-items:center;padding:10px 16px;border-top:1px solid var(--line)}
+.trow.head{border-top:0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;padding-block:8px}
+.trow .k{display:none}
+.tplanes{display:flex;flex-wrap:wrap;gap:4px;min-width:0}
+.tpl{font-size:12.5px;border:1px solid var(--line);border-radius:6px;padding:1px 7px;background:var(--surface-2);white-space:nowrap}
+.tpl.all{font-weight:700;border-color:transparent;background:transparent;padding-left:0;font-size:15px}
+.tadm{font-weight:500}
+.tbadge{display:inline-block;font-weight:700;font-size:13.5px;border-radius:999px;padding:3px 11px;white-space:nowrap}
+.tbadge.req{background:var(--req-bg);color:var(--req)}
+.tbadge.ok{background:var(--save-bg);color:var(--save)}
+.tnum{font-variant-numeric:tabular-nums;font-weight:700}
+.tnil{color:var(--muted)}
+/* Modo administrador */
+.tact{display:flex;justify-content:flex-end;margin-left:auto}
+.admin-on .trow{grid-template-columns:minmax(0,1.6fr) 120px 190px 120px minmax(0,1fr) 40px}
+.tplgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:4px 10px;background:var(--surface-2);border-radius:8px;padding:10px 12px;font-size:14.5px}
+.tplgrid label{display:flex;gap:6px;align-items:center;font-weight:400;cursor:pointer}
+.tplgrid input{width:auto;margin:0}
+.tlink{font-weight:400;color:var(--muted);margin-left:8px}
+.tlink button{border:0;background:none;padding:0;color:var(--accent);cursor:pointer;text-decoration:underline;font-size:13.5px}
+.tfour{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.tfour label{font-weight:400;font-size:13px;color:var(--muted)}
+.tpllist{display:grid;gap:6px;max-height:300px;overflow:auto;padding-right:4px}
+.tplrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
+.tplrow .btn{padding:7px 12px;font-size:14px}
+.dlg{width:min(600px,100%)}
+@media (max-width:760px){
+  .admin-on .trow{grid-template-columns:1fr 1fr}
+  .trow .tact{grid-column:1/-1}
+  .tfour{grid-template-columns:1fr 1fr}
+  .tcard header{flex-direction:column;gap:2px}
+  .trow.head{display:none}
+  .trow{grid-template-columns:1fr 1fr;gap:8px 14px}
+  .trow>div:first-child{grid-column:1/-1}
+  .trow .k{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+}
+</style>
+</head>
+<body>
+<div class="adminbar" id="adminbar" hidden>
+  <div class="wrap">
+    <strong><i></i>Modo administrador · Traditum</strong>
+    <span class="pend" id="pend"><span id="pendTxt"></span><button type="button" class="ghost" id="bDiscard">Descartar</button><button type="button" id="bPub">Publicar cambios</button></span>
+    <button class="btn" type="button" id="bAdd">+ Agregar práctica</button>
+    <button class="btn" type="button" id="bPlanes">Planes</button>
+    <button class="btn" type="button" id="bOut">Salir</button>
+  </div>
+</div>
+
+<header class="hdr" id="sb">
+  <div class="wrap">
+    <div class="brandrow">
+      <img class="hlogo" src="logo-blanco.png" alt="SAMI Osmecon La Matanza" width="195" height="116">
+      <span class="hdiv" aria-hidden="true"></span>
+      <div class="htxt">
+        <h1>Validador Traditum</h1>
+        <p id="vig">Autorización, copago y topes</p>
+      </div>
+      <nav class="hnav" id="hnav" aria-label="Secciones"><a href="index.html">Centros de DX</a><a href="traditum.html" aria-current="page">Validador Traditum</a></nav>
+    </div>
+    <div class="qwrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <label class="sr" for="q">Buscar práctica por código o descripción</label>
+      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Escribí un código o una descripción">
+      <button id="clear" type="button" aria-label="Borrar búsqueda" hidden>×</button>
+    </div>
+    <div class="frow">
+      <label class="sr" for="plan">Plan</label>
+      <div class="pill"><select id="plan"><option value="">Todos los planes</option></select></div>
+      <label class="tchk"><input type="checkbox" id="g"> Ver guardia</label>
+      <span class="count" id="count" aria-live="polite">Cargando base…</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="tnote">Por defecto se muestra ambulatorio; tildá «Ver guardia» para sumar guardia. El tope es la cantidad de prácticas que se pueden validar por Traditum; superado el tope, requiere autorización previa.</div>
+  <div id="out" style="display:grid;gap:12px"></div>
+</main>
+
+<button id="admTab" type="button" aria-label="Acceso administrador">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+  <span id="admTabTxt">Administrador</span>
+</button>
+
+<div id="modal"></div>
+<div id="toastBox"></div>
+
+<script src="config.js"></script>
+<script>
+/* ===== Validador Traditum =====
+   La base está en traditum.json:
+     planes   : nombres de los planes
+     config   : combinaciones [autoriza, copago, diario, semanal, mensual, trimestral, semestral, anual]
+     practicas: [código, descripción, [[planes (máscara de bits), config guardia, config ambulatorio], …]]
+   El modo administrador usa la misma clave (token de GitHub) que el buscador de centros. */
+(function(){
+"use strict";
+const DATA_FILE = 'traditum.json';
+const ADM = { G: 'Guardia', P: 'Ambulatorio' };
+const PAGE = 30, MAX_PLANES = 30;
+const TOPES = [[2,'por día'],[3,'por semana'],[4,'por mes'],[5,'por trimestre'],[6,'por semestre'],[7,'por año']];
+const ICON_EDIT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="m14 6 4 4"/></svg>';
+
+const $ = id => document.getElementById(id);
+const norm = s => String(s == null ? '' : s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = n => '$ ' + Number(n).toLocaleString('es-AR');
+const ss = { get(k){ try { return JSON.parse(sessionStorage.getItem(k)); } catch(_) { return null; } },
+             set(k,v){ try { sessionStorage.setItem(k, JSON.stringify(v)); } catch(_) {} },
+             del(k){ try { sessionStorage.removeItem(k); } catch(_) {} } };
+const LS = { get(k){ try { return localStorage.getItem(k); } catch(_) { return null; } },
+             set(k,v){ try { localStorage.setItem(k, v); } catch(_) {} },
+             del(k){ try { localStorage.removeItem(k); } catch(_) {} } };
+
+let ORIG = '';                       /* texto de traditum.json tal como está publicado */
+const S = { planes: [], config: [], pr: [], actualizado: '', loadedSha: null, admin: false, dirty: 0, shown: PAGE };
+let IDX = [], matches = [], cfgKey = new Map();
+
+/* ---------- modelo ---------- */
+function load(db){
+  S.planes = db.planes.slice(); S.config = db.config.map(c => c.slice());
+  S.pr = db.practicas.map(p => [String(p[0]), String(p[1]), p[2].map(g => g.slice())]);
+  S.actualizado = db.actualizado || '';
+  cfgKey = new Map(S.config.map((c, i) => [c.join(','), i]));
+  reindex();
+}
+function reindex(){ S.pr.sort((a, b) => a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0); IDX = S.pr.map(p => ({ p, code: norm(p[0]), name: norm(p[1]) })); }
+function intern(cfg){ const k = cfg.join(','); if (!cfgKey.has(k)) { cfgKey.set(k, S.config.length); S.config.push(cfg.slice()); } return cfgKey.get(k); }
+function allMask(){ return Math.pow(2, S.planes.length) - 1; }
+function normGroups(gs){
+  const m = new Map();
+  gs.forEach(g => { if (!g[0] || (g[1] < 0 && g[2] < 0)) return; const k = g[1] + '|' + g[2]; if (m.has(k)) m.get(k)[0] |= g[0]; else m.set(k, [g[0], g[1], g[2]]); });
+  return Array.from(m.values()).sort((a, b) => (a[0] & -a[0]) - (b[0] & -b[0]));
+}
+/* Aplica una configuración a los planes de la máscara, para guardia (G), ambulatorio (P) o ambas (GP). */
+function setCfg(p, mask, kind, ci){
+  const out = []; let rest = mask;
+  p[2].forEach(g => {
+    const inter = g[0] & mask, keep = g[0] & ~mask;
+    if (keep) out.push([keep, g[1], g[2]]);
+    if (inter) { out.push([inter, kind !== 'P' ? ci : g[1], kind !== 'G' ? ci : g[2]]); rest &= ~inter; }
+  });
+  if (rest) out.push([rest, kind !== 'P' ? ci : -1, kind !== 'G' ? ci : -1]);
+  p[2] = normGroups(out);
+}
+function unsetPlans(p, mask, kind){
+  p[2] = normGroups(p[2].map(g => {
+    const inter = g[0] & mask, keep = g[0] & ~mask, out = [];
+    if (keep) out.push([keep, g[1], g[2]]);
+    if (inter && kind !== 'GP') out.push([inter, kind === 'G' ? -1 : g[1], kind === 'P' ? -1 : g[2]]);
+    return out;
+  }).reduce((a, b) => a.concat(b), []));
+}
+function dropPlan(i){
+  const low = Math.pow(2, i) - 1;
+  S.pr.forEach(p => { p[2] = normGroups(p[2].map(g => [(g[0] & low) | ((g[0] >>> (i + 1)) << i), g[1], g[2]])); });
+  S.planes.splice(i, 1);
+}
+function addPlan(name, from){
+  const bit = Math.pow(2, S.planes.length);
+  if (from >= 0) S.pr.forEach(p => p[2].forEach(g => { if (g[0] & (1 << from)) g[0] |= bit; }));
+  S.planes.push(name);
+}
+/* Texto que se guarda: descarta configuraciones sin uso y deja una práctica por línea. */
+function dataText(){
+  const used = new Map(), cfg = [];
+  const ix = c => { if (c < 0) return -1; if (!used.has(c)) { used.set(c, cfg.length); cfg.push(S.config[c]); } return used.get(c); };
+  const rows = S.pr.map(p => JSON.stringify([p[0], p[1], p[2].map(g => [g[0], ix(g[1]), ix(g[2])])]));
+  return '{"actualizado":' + JSON.stringify(S.actualizado) + ',"planes":' + JSON.stringify(S.planes) + ',"config":' + JSON.stringify(cfg) + ',"practicas":[\n' + rows.join(',\n') + '\n]}\n';
+}
+
+/* ---------- vista ---------- */
+function el(tag, cls, text){ const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function cell(label, child){ const d = el('div'); d.appendChild(el('span', 'k', label)); d.appendChild(child); return d; }
+function topeTxt(cfg){ return TOPES.filter(x => cfg[x[0]]).map(x => cfg[x[0]] + ' ' + x[1]); }
+function cfgCells(cfg){
+  const aut = el('span', 'tbadge ' + (cfg[0] ? 'req' : 'ok'), cfg[0] ? 'Requiere autorización' : 'No requiere');
+  const cop = cfg[1] ? el('span', 'tnum', money(cfg[1])) : el('span', 'tnil', 'Sin copago');
+  const t = topeTxt(cfg);
+  const tope = t.length ? el('span', 'tnum', t.join(' · ')) : el('span', 'tnil', 'Sin tope');
+  return [cell('Autorización', aut), cell('Copago', cop), cell('Tope', tope)];
+}
+function planCell(mask, planSel){
+  const box = el('div', 'tplanes');
+  if (planSel !== '') { box.appendChild(el('span', 'tpl all', S.planes[planSel])); return box; }
+  if (mask === allMask()) { box.appendChild(el('span', 'tpl all', 'Todos los planes')); return box; }
+  S.planes.forEach((p, i) => { if (mask & (1 << i)) box.appendChild(el('span', 'tpl', p)); });
+  return box;
+}
+function icoBtn(label, fn){ const b = el('button', 'ico'); b.type = 'button'; b.innerHTML = ICON_EDIT; b.setAttribute('aria-label', label); b.title = label; b.onclick = fn; return b; }
+function card(p, planSel){
+  const c = el('article', 'tcard');
+  const h = el('header');
+  h.appendChild(el('span', 'tcod', p[0]));
+  h.appendChild(el('span', 'tnom', p[1]));
+  if (S.admin) { const a = el('span', 'tact'); a.appendChild(icoBtn('Editar código y descripción', () => openPractica(p))); h.appendChild(a); }
+  c.appendChild(h);
+  const head = el('div', 'trow head');
+  ['Plan', 'Admisión', 'Autorización', 'Copago', 'Tope'].forEach(t => head.appendChild(el('div', '', t)));
+  if (S.admin) head.appendChild(el('div'));
+  c.appendChild(head);
+  /* Sin el tilde de guardia solo se muestra ambulatorio; se agrupan los planes con los mismos valores. */
+  const showG = $('g').checked, groups = new Map();
+  p[2].forEach(g => {
+    if (planSel !== '' && !(g[0] & (1 << planSel))) return;
+    const gi = showG ? g[1] : -1;
+    if (gi < 0 && g[2] < 0) return;
+    const key = gi + '|' + g[2], cur = groups.get(key);
+    if (cur) cur[0] |= g[0]; else groups.set(key, [g[0], gi, g[2]]);
+  });
+  groups.forEach(g => {
+    const lines = [];
+    if (g[1] >= 0 && g[1] === g[2]) lines.push(['GP', g[1]]);
+    else { if (g[2] >= 0) lines.push(['P', g[2]]); if (g[1] >= 0) lines.push(['G', g[1]]); }
+    lines.forEach(l => {
+      const r = el('div', 'trow');
+      r.appendChild(planCell(g[0], planSel));
+      r.appendChild(cell('Admisión', el('span', 'tadm', l[0] === 'GP' ? ADM.G + ' y ' + ADM.P.toLowerCase() : ADM[l[0]])));
+      cfgCells(S.config[l[1]]).forEach(x => r.appendChild(x));
+      if (S.admin) { const a = el('div', 'tact'); a.appendChild(icoBtn('Editar valores', () => openValores(p, planSel !== '' ? (1 << planSel) : g[0], l[0], l[1]))); r.appendChild(a); }
+      c.appendChild(r);
+    });
+  });
+  if (!groups.size) {
+    const r = el('div', 'trow');
+    const t = el('div', 'tnil', showG ? 'Sin valores cargados.' : 'Sin valores de ambulatorio.'); t.style.gridColumn = '1 / -2'; r.appendChild(t);
+    if (S.admin) { const a = el('div', 'tact'); a.appendChild(icoBtn('Cargar valores', () => openValores(p, planSel !== '' ? (1 << planSel) : allMask(), 'P', -1))); r.appendChild(a); }
+    else t.style.gridColumn = '1 / -1';
+    c.appendChild(r);
+  }
+  return c;
+}
+function planSelVal(){ return $('plan').value === '' ? '' : Number($('plan').value); }
+function search(){
+  const q = norm($('q').value.trim()), planSel = planSelVal();
+  $('clear').hidden = !q;
+  const toks = q.split(/\s+/).filter(Boolean), res = [];
+  for (const it of IDX) {
+    if (planSel !== '' && !it.p[2].some(g => g[0] & (1 << planSel))) continue;
+    if (!toks.length) { res.push([2, it.p]); continue; }
+    if (!toks.every(t => it.code.includes(t) || it.name.includes(t))) continue;
+    res.push([it.code === q ? 0 : it.code.startsWith(toks[0]) ? 1 : 2, it.p]);
+  }
+  res.sort((a, b) => a[0] - b[0]);
+  matches = res.map(r => r[1]);
+  render();
+}
+function render(){
+  const out = $('out'), planSel = planSelVal(), n = matches.length;
+  out.textContent = '';
+  $('count').textContent = '';
+  $('count').append(el('b', '', n.toLocaleString('es-AR')), n === 1 ? ' práctica' : ' prácticas', planSel === '' ? '' : ' en el plan ' + S.planes[planSel]);
+  if (!n) {
+    const e = el('div', 'empty');
+    e.appendChild(el('h3', '', 'Sin resultados'));
+    e.appendChild(el('div', '', 'Probá con otro código o con menos palabras de la descripción.'));
+    out.appendChild(e); return;
+  }
+  const frag = document.createDocumentFragment();
+  matches.slice(0, S.shown).forEach(p => frag.appendChild(card(p, planSel)));
+  out.appendChild(frag);
+  if (n > S.shown) {
+    const m = el('div', 'more'), btn = el('button', 'btn', 'Mostrar más (' + (n - S.shown).toLocaleString('es-AR') + ' restantes)');
+    btn.type = 'button'; btn.onclick = () => { S.shown += PAGE; render(); };
+    m.appendChild(btn); out.appendChild(m);
+  }
+}
+function fillPlanes(){
+  const sel = $('plan'), cur = sel.value;
+  sel.innerHTML = '<option value="">Todos los planes</option>';
+  S.planes.map((p, i) => [p, i]).sort((a, b) => a[0].localeCompare(b[0])).forEach(([p, i]) => { const o = el('option', '', p); o.value = i; sel.appendChild(o); });
+  sel.value = cur !== '' && Number(cur) < S.planes.length ? cur : '';
+}
+function setVig(){
+  $('vig').innerHTML = 'Autorización, copago y topes' + (S.actualizado ? ' · Base al <b>' + esc(S.actualizado.split('-').reverse().join('/')) + '</b>' : '');
+}
+function refresh(){ fillPlanes(); setVig(); search(); }
+
+/* ---------- modales ---------- */
+function modal(html){
+  $('modal').innerHTML = '<div class="ov" id="ov"><div class="dlg" role="dialog" aria-modal="true">' + html + '</div></div>';
+  const ov = $('ov');
+  ov.addEventListener('click', e => { if (e.target === ov || e.target.closest('.x,[data-close]')) closeModal(); });
+  const f = ov.querySelector('input,textarea,button.btn'); if (f) setTimeout(() => { if (!ov.contains(document.activeElement)) f.focus(); }, 30);
+}
+function closeModal(){ $('modal').innerHTML = ''; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('ov')) closeModal(); });
+function hdr(t){ return '<header><h3>' + t + '</h3><button class="x" type="button" aria-label="Cerrar">×</button></header>'; }
+function toast(t){ $('toastBox').innerHTML = ''; const e = el('div', 'toast', t); $('toastBox').appendChild(e); setTimeout(() => e.remove(), 2800); }
+
+/* ---------- acceso (misma clave que el buscador de centros) ---------- */
+const CFG = window.BUSCADOR_CONFIG || {};
+const GH = { owner: '', repo: '', branch: 'main', path: DATA_FILE, token: null };
+(function(){
+  const h = location.hostname, seg = location.pathname.split('/').filter(Boolean);
+  if (/\.github\.io$/i.test(h)) { GH.owner = h.split('.')[0]; GH.repo = (seg.length && !/\.html?$/i.test(seg[0])) ? seg[0] : h; }
+  ['owner', 'repo', 'branch'].forEach(k => { if (CFG[k]) GH[k] = CFG[k]; });
+  if (CFG.path && CFG.path.indexOf('/') >= 0) GH.path = CFG.path.replace(/[^/]+$/, '') + DATA_FILE;
+})();
+/* Vista previa fuera del sitio: se puede probar el modo administrador, pero no publica. */
+const PREVIEW = !GH.owner && !/traditum(\.html)?$/i.test(location.pathname);
+function storedToken(){ let t = null; try { t = sessionStorage.getItem('samiTok'); } catch(_) {} return t || LS.get('samiTok'); }
+function ghApi(method, url, body){
+  return fetch('https://api.github.com/repos/' + GH.owner + '/' + GH.repo + url, { method, cache: 'no-store',
+    headers: { 'Authorization': 'Bearer ' + GH.token, 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' },
+    body: body ? JSON.stringify(body) : undefined
+  }).then(r => {
+    if (!r.ok) return r.json().catch(() => ({})).then(j => { const e = new Error(j.message || ('Error ' + r.status)); e.status = r.status; throw e; });
+    return r.status === 204 ? null : r.json();
+  });
+}
+function headInfo(){
+  const info = {};
+  return ghApi('GET', '/git/ref/heads/' + encodeURIComponent(GH.branch)).then(ref => {
+    info.commit = ref.object.sha; return ghApi('GET', '/git/commits/' + info.commit);
+  }).then(c => {
+    info.tree = c.tree.sha; return ghApi('GET', '/git/trees/' + info.tree + '?recursive=1');
+  }).then(t => { const f = (t.tree || []).filter(x => x.path === GH.path)[0]; info.blob = f ? f.sha : null; return info; });
+}
+function ghMsg(e){
+  if (!e) return 'Error desconocido.';
+  if (e.status === 401) return 'La clave no es válida o venció. Generá una nueva en GitHub.';
+  if (e.status === 403) return 'La clave no tiene permiso para escribir en el repositorio (Contents: Read and write).';
+  if (e.status === 404) return 'No se encontró el repositorio «' + GH.owner + '/' + GH.repo + '» o la clave no tiene acceso a él.';
+  if (e.status === 409 || e.status === 422) return 'El repositorio cambió mientras publicabas. Recargá la página y volvé a intentar.';
+  if (e instanceof TypeError) return 'No hay conexión con GitHub. Revisá internet y probá de nuevo.';
+  return e.message || String(e);
+}
+function login(tok, remember){
+  GH.token = tok;
+  return ghApi('GET', '').then(repo => {
+    if (!repo.permissions || !repo.permissions.push) { const e = new Error(''); e.status = 403; throw e; }
+    try { sessionStorage.setItem('samiTok', tok); } catch(_) {}
+    if (remember) LS.set('samiTok', tok); else LS.del('samiTok');
+    return true;
+  }).catch(e => { GH.token = null; throw e; });
+}
+function setAdmin(on){
+  S.admin = on;
+  document.body.classList.toggle('admin-on', on);
+  $('adminbar').hidden = !on;
+  $('admTabTxt').textContent = on ? 'Salir de admin' : 'Administrador';
+  if (on && !$('g').checked) $('g').checked = true;
+  updPend(); render();
+}
+function openLogin(err){
+  const needRepo = !GH.owner || !GH.repo;
+  modal(hdr('Acceso administrador') +
+    '<form id="fLogin">' +
+    (needRepo ? '<div class="two"><div class="fld"><label for="lOwner">Usuario u organización de GitHub</label><input id="lOwner" required value="' + esc(GH.owner) + '"></div><div class="fld"><label for="lRepo">Repositorio</label><input id="lRepo" required value="' + esc(GH.repo) + '"></div></div>' : '') +
+    '<div class="fld"><label for="lTok">Clave de GitHub (token)</label><input id="lTok" type="password" autocomplete="off" required placeholder="github_pat_…"><small>Es la misma clave que usás en el buscador de centros.</small></div>' +
+    '<label class="chk"><input type="checkbox" id="lRem"><span>Recordar en este equipo (no lo marques en computadoras compartidas)</span></label>' +
+    '<div class="err" id="err">' + (err ? esc(err) : '') + '</div><div class="acts"><button class="btn" type="button" data-close>Cancelar</button><button class="btn pri" type="submit">Ingresar</button></div></form>');
+  $('fLogin').addEventListener('submit', function(e){
+    e.preventDefault(); const f = this; f.querySelectorAll('button').forEach(b => b.disabled = true);
+    if (needRepo) { GH.owner = $('lOwner').value.trim(); GH.repo = $('lRepo').value.trim(); }
+    login($('lTok').value.trim(), $('lRem').checked).then(() => { closeModal(); setAdmin(true); toast('Modo administrador activado'); })
+      .catch(er => { f.querySelectorAll('button').forEach(b => b.disabled = false); $('err').textContent = ghMsg(er); });
+  });
+}
+function tryAuto(){
+  if (PREVIEW) { setAdmin(true); return Promise.resolve(true); }
+  const t = storedToken(); if (!t) return Promise.resolve(false);
+  return login(t, !!LS.get('samiTok')).then(() => { setAdmin(true); return true; }).catch(() => { try { sessionStorage.removeItem('samiTok'); } catch(_) {} return false; });
+}
+function exitAdmin(){
+  if (S.dirty) {
+    modal(hdr('Tenés cambios sin publicar') + '<form><p style="margin:0">Hay ' + S.dirty + ' cambio(s) que todavía no se publicaron. Si salís ahora se pierden.</p><div class="acts"><button class="btn" type="button" id="xDisc">Salir sin publicar</button><button class="btn pri" type="button" id="xPub">Publicar y salir</button></div></form>');
+    $('xDisc').onclick = () => { discard(); closeModal(); setAdmin(false); };
+    $('xPub').onclick = () => { closeModal(); publish(false); };
+    return;
+  }
+  setAdmin(false); toast('Saliste del modo administrador');
+}
+function markDirty(){
+  S.dirty++;
+  ss.set('samiTradDraft', { planes: S.planes, config: S.config, practicas: S.pr, actualizado: S.actualizado, dirty: S.dirty });
+  updPend();
+}
+function updPend(){
+  $('pend').classList.toggle('on', S.admin && S.dirty > 0);
+  $('pendTxt').textContent = S.dirty + (S.dirty === 1 ? ' cambio sin publicar' : ' cambios sin publicar');
+}
+function discard(){ load(JSON.parse(ORIG)); S.dirty = 0; ss.del('samiTradDraft'); updPend(); refresh(); }
+function hoyISO(){ const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function b64utf8(str){ const by = new TextEncoder().encode(str), CH = 0x8000; let bin = ''; for (let i = 0; i < by.length; i += CH) bin += String.fromCharCode.apply(null, by.subarray(i, i + CH)); return btoa(bin); }
+function gitBlobSha(bytes){
+  if (!(window.crypto && crypto.subtle)) return Promise.resolve(null);
+  const head = new TextEncoder().encode('blob ' + bytes.length + '\0'), all = new Uint8Array(head.length + bytes.length);
+  all.set(head, 0); all.set(bytes, head.length);
+  return crypto.subtle.digest('SHA-1', all).then(h => Array.prototype.map.call(new Uint8Array(h), x => ('0' + x.toString(16)).slice(-2)).join('')).catch(() => null);
+}
+/* publicar: guarda traditum.json en el repositorio de GitHub (un commit) */
+function publish(force){
+  if (PREVIEW) { modal(hdr('Vista previa') + '<form><p style="margin:0">Esta es la vista previa: los cambios se pueden probar pero no se publican. En el sitio real, «Publicar cambios» guarda la base para todos.</p><div class="acts"><button class="btn pri" type="button" data-close>Entendido</button></div></form>'); return; }
+  if (!GH.token) { openLogin(); return; }
+  const b = $('bPub'); b.disabled = true; b.textContent = 'Publicando…';
+  const prev = S.actualizado; S.actualizado = hoyISO();
+  const txt = dataText(); let info;
+  headInfo().then(i => {
+    info = i;
+    if (!force && S.loadedSha && info.blob && info.blob !== S.loadedSha) { const e = new Error('conflict'); e.conflict = true; throw e; }
+    return ghApi('POST', '/git/blobs', { content: b64utf8(txt), encoding: 'base64' });
+  }).then(blob => {
+    info.newBlob = blob.sha;
+    return ghApi('POST', '/git/trees', { base_tree: info.tree, tree: [{ path: GH.path, mode: '100644', type: 'blob', sha: blob.sha }] });
+  }).then(tree => ghApi('POST', '/git/commits', { message: 'Actualiza base Traditum: ' + S.dirty + (S.dirty === 1 ? ' cambio' : ' cambios') + ' (' + hoyISO() + ')', tree: tree.sha, parents: [info.commit] })
+  ).then(c => ghApi('PATCH', '/git/refs/heads/' + encodeURIComponent(GH.branch), { sha: c.sha, force: false })
+  ).then(() => {
+    S.loadedSha = info.newBlob; ORIG = txt; load(JSON.parse(txt));
+    ss.del('samiTradDraft'); S.dirty = 0; updPend(); refresh();
+    b.disabled = false; b.textContent = 'Publicar cambios';
+    toast('Publicado. El sitio se actualiza para todos en 1 o 2 minutos.');
+  }).catch(e => {
+    S.actualizado = prev; b.disabled = false; b.textContent = 'Publicar cambios';
+    if (e && e.conflict) {
+      modal(hdr('Alguien publicó antes que vos') + '<form><p style="margin:0">La base en GitHub cambió desde que abriste la página. Si publicás igual, <b>se pisan esos cambios</b> con los tuyos.</p><p style="margin:0">Lo más seguro: recargá la página y volvé a hacer tus cambios.</p><div class="acts"><button class="btn" type="button" data-close>Cancelar</button><button class="btn dng" type="button" id="fPubF">Publicar igual</button></div></form>');
+      $('fPubF').onclick = () => { closeModal(); publish(true); };
+      return;
+    }
+    if (e && e.status === 401) { GH.token = null; LS.del('samiTok'); try { sessionStorage.removeItem('samiTok'); } catch(_) {} openLogin(ghMsg(e)); return; }
+    modal(hdr('No se pudo publicar') + '<form><div class="note-ro">' + esc(ghMsg(e)) + '</div><p style="margin:0">Tus cambios siguen guardados en esta pestaña.</p><div class="acts"><button class="btn pri" type="button" data-close>Entendido</button></div></form>');
+  });
+}
+
+/* ---------- edición ---------- */
+function numVal(id){ const v = $(id).value.trim(); if (v === '') return 0; const n = Number(v.replace(',', '.')); return Number.isInteger(n) && n >= 0 ? n : NaN; }
+function valoresFields(cfg){
+  const n = (id, lbl, v) => '<div class="fld"><label for="' + id + '">' + lbl + '</label><input id="' + id + '" inputmode="numeric" value="' + (v || 0) + '"></div>';
+  return '<div class="two"><div class="fld"><label for="vAut">Autorización</label><select id="vAut" class="isel"><option value="1"' + (cfg[0] ? ' selected' : '') + '>Requiere autorización</option><option value="0"' + (cfg[0] ? '' : ' selected') + '>No requiere</option></select></div>' +
+    n('vCop', 'Copago ($)', cfg[1]) + '</div>' +
+    '<div class="fld"><label>Topes (cantidad de prácticas · 0 = sin tope)</label><div class="tfour">' + n('vD', 'Diario', cfg[2]) + n('vS', 'Semanal', cfg[3]) + n('vM', 'Mensual', cfg[4]) + n('vA', 'Anual', cfg[7]) + '</div></div>';
+}
+function readValores(base){
+  const c = [Number($('vAut').value), numVal('vCop'), numVal('vD'), numVal('vS'), numVal('vM'), base[5] || 0, base[6] || 0, numVal('vA')];
+  return c.some(x => isNaN(x)) ? null : c;
+}
+function openValores(p, mask, kind, ci){
+  const cfg = ci >= 0 ? S.config[ci] : [1, 0, 0, 0, 0, 0, 0, 0];
+  const planes = S.planes.map((n, i) => '<label><input type="checkbox" name="pl" value="' + i + '"' + (mask & (1 << i) ? ' checked' : '') + '> ' + esc(n) + '</label>').join('');
+  modal(hdr('Editar valores') +
+    '<form id="fVal"><div class="note-ro"><b>' + esc(p[0]) + '</b> · ' + esc(p[1]) + '</div>' +
+    '<div class="fld"><label>Planes a los que se aplica <span class="tlink"><button type="button" id="plAll">Todos</button> · <button type="button" id="plNone">Ninguno</button></span></label><div class="tplgrid">' + planes + '</div></div>' +
+    '<div class="fld"><label for="vAdm">Admisión</label><select id="vAdm" class="isel"><option value="P">' + ADM.P + '</option><option value="G">' + ADM.G + '</option><option value="GP">' + ADM.G + ' y ' + ADM.P.toLowerCase() + '</option></select></div>' +
+    valoresFields(cfg) +
+    '<div class="err" id="err"></div><div class="acts"><button class="btn dng" type="button" id="vQuit" style="margin-right:auto">Quitar de estos planes</button><button class="btn" type="button" data-close>Cancelar</button><button class="btn pri" type="submit">Guardar</button></div></form>');
+  $('vAdm').value = kind;
+  const boxes = () => Array.from(document.querySelectorAll('#fVal input[name=pl]'));
+  const selMask = () => boxes().reduce((m, b) => b.checked ? m | (1 << Number(b.value)) : m, 0);
+  $('plAll').onclick = () => boxes().forEach(b => b.checked = true);
+  $('plNone').onclick = () => boxes().forEach(b => b.checked = false);
+  let armed = false;
+  $('vQuit').onclick = function(){
+    const m = selMask(); if (!m) { $('err').textContent = 'Tildá al menos un plan.'; return; }
+    if (!armed) { armed = true; this.textContent = 'Confirmar: quitar'; $('err').textContent = 'Se quitan los valores de ' + ($('vAdm').value === 'GP' ? 'guardia y ambulatorio' : ADM[$('vAdm').value].toLowerCase()) + ' en los planes tildados.'; return; }
+    unsetPlans(p, m, $('vAdm').value); markDirty(); closeModal(); render(); toast('Valores quitados');
+  };
+  $('fVal').addEventListener('submit', e => {
+    e.preventDefault();
+    const m = selMask(), c = readValores(cfg);
+    if (!m) { $('err').textContent = 'Tildá al menos un plan.'; return; }
+    if (!c) { $('err').textContent = 'Copago y topes tienen que ser números enteros (0 o más).'; return; }
+    setCfg(p, m, $('vAdm').value, intern(c)); markDirty(); closeModal(); render(); toast('Valores guardados');
+  });
+}
+function codeTaken(code, except){ return S.pr.some(x => x !== except && x[0] === code); }
+function openPractica(p){
+  const nuevo = !p;
+  modal(hdr(nuevo ? 'Agregar práctica' : 'Editar práctica') +
+    '<form id="fPr"><div class="fld"><label for="pCod">Código</label><input id="pCod" required value="' + esc(nuevo ? '' : p[0]) + '"></div>' +
+    '<div class="fld"><label for="pNom">Descripción</label><input id="pNom" required value="' + esc(nuevo ? '' : p[1]) + '"></div>' +
+    (nuevo ? '<div class="note-ro">Estos valores se cargan para todos los planes, en guardia y ambulatorio. Después podés ajustar cada plan con el lápiz.</div>' + valoresFields([1, 0, 0, 0, 0, 0, 0, 0]) : '') +
+    '<div class="err" id="err"></div><div class="acts">' + (nuevo ? '' : '<button class="btn dng" type="button" id="pDel" style="margin-right:auto">Eliminar práctica</button>') + '<button class="btn" type="button" data-close>Cancelar</button><button class="btn pri" type="submit">Guardar</button></div></form>');
+  if (!nuevo) {
+    let armed = false;
+    $('pDel').onclick = function(){
+      if (!armed) { armed = true; this.textContent = 'Confirmar: eliminar'; $('err').textContent = 'Se elimina la práctica de todos los planes.'; return; }
+      S.pr.splice(S.pr.indexOf(p), 1); reindex(); markDirty(); closeModal(); search(); toast('Práctica eliminada');
+    };
+  }
+  $('fPr').addEventListener('submit', e => {
+    e.preventDefault();
+    const cod = $('pCod').value.trim(), nom = $('pNom').value.trim().replace(/\s+/g, ' ');
+    if (!cod || !nom) { $('err').textContent = 'Completá código y descripción.'; return; }
+    if (codeTaken(cod, p)) { $('err').textContent = 'Ya existe una práctica con el código ' + cod + '.'; return; }
+    if (nuevo) {
+      const c = readValores([]);
+      if (!c) { $('err').textContent = 'Copago y topes tienen que ser números enteros (0 o más).'; return; }
+      const ci = intern(c); S.pr.push([cod, nom, [[allMask(), ci, ci]]]);
+      $('q').value = cod;
+    } else { p[0] = cod; p[1] = nom; }
+    reindex(); markDirty(); closeModal(); S.shown = PAGE; search(); toast(nuevo ? 'Práctica agregada' : 'Práctica guardada');
+  });
+}
+function openPlanes(){
+  const filas = S.planes.map((n, i) => '<div class="tplrow"><input data-i="' + i + '" value="' + esc(n) + '" aria-label="Nombre del plan"><button class="btn" type="button" data-del="' + i + '">Eliminar</button></div>').join('');
+  const copia = '<option value="-1">Vacío (sin prácticas)</option>' + S.planes.map((n, i) => '<option value="' + i + '">Copiar de ' + esc(n) + '</option>').join('');
+  modal(hdr('Planes') +
+    '<form id="fPl"><div class="fld"><label>Planes actuales (' + S.planes.length + ')</label><div class="tpllist">' + filas + '</div></div>' +
+    '<div class="fld"><label for="nPl">Agregar plan</label><div class="tplrow"><input id="nPl" placeholder="Nombre del plan nuevo"><select id="nFrom" class="isel">' + copia + '</select></div></div>' +
+    '<div class="err" id="err"></div><div class="acts"><button class="btn" type="button" data-close>Cancelar</button><button class="btn pri" type="submit">Guardar</button></div></form>');
+  document.querySelectorAll('#fPl [data-del]').forEach(b => {
+    let armed = false;
+    b.onclick = function(){
+      const i = Number(this.dataset.del);
+      if (!armed) { armed = true; this.classList.add('dng'); this.textContent = 'Confirmar'; $('err').textContent = 'Se elimina el plan ' + S.planes[i] + ' y sus valores en todas las prácticas.'; return; }
+      dropPlan(i); markDirty(); refresh(); openPlanes(); toast('Plan eliminado');
+    };
+  });
+  $('fPl').addEventListener('submit', e => {
+    e.preventDefault();
+    const names = Array.from(document.querySelectorAll('#fPl input[data-i]')).map(x => x.value.trim().replace(/\s+/g, ' '));
+    const nuevo = $('nPl').value.trim().replace(/\s+/g, ' ');
+    const todos = nuevo ? names.concat(nuevo) : names;
+    if (names.some(n => !n)) { $('err').textContent = 'Ningún plan puede quedar sin nombre.'; return; }
+    if (new Set(todos.map(norm)).size !== todos.length) { $('err').textContent = 'Hay nombres de plan repetidos.'; return; }
+    if (todos.length > MAX_PLANES) { $('err').textContent = 'El máximo es ' + MAX_PLANES + ' planes.'; return; }
+    let cambios = 0;
+    names.forEach((n, i) => { if (S.planes[i] !== n) { S.planes[i] = n; cambios++; } });
+    if (nuevo) { addPlan(nuevo, Number($('nFrom').value)); cambios++; }
+    if (cambios) { markDirty(); refresh(); toast('Planes guardados'); }
+    closeModal();
+  });
+}
+
+/* ---------- eventos e inicio ---------- */
+let tmr;
+$('q').addEventListener('input', () => { clearTimeout(tmr); tmr = setTimeout(() => { S.shown = PAGE; search(); }, 120); });
+$('plan').addEventListener('change', () => { S.shown = PAGE; search(); });
+$('g').addEventListener('change', render);
+$('clear').addEventListener('click', () => { $('q').value = ''; S.shown = PAGE; search(); $('q').focus(); });
+$('admTab').addEventListener('click', () => {
+  if (S.admin) { exitAdmin(); return; }
+  tryAuto().then(ok => { if (ok) toast('Modo administrador activado'); else openLogin(); });
+});
+$('bOut').addEventListener('click', exitAdmin);
+$('bPub').addEventListener('click', () => publish(false));
+$('bAdd').addEventListener('click', () => openPractica(null));
+$('bPlanes').addEventListener('click', openPlanes);
+$('bDiscard').addEventListener('click', () => {
+  modal(hdr('Descartar cambios') + '<form><p style="margin:0">Se deshacen los ' + S.dirty + ' cambio(s) sin publicar y la base vuelve a como estaba.</p><div class="acts"><button class="btn" type="button" data-close>Cancelar</button><button class="btn dng" type="button" id="dOk">Descartar</button></div></form>');
+  $('dOk').onclick = () => { discard(); closeModal(); toast('Cambios descartados'); };
+});
+if (PREVIEW) $('hnav').hidden = true;
+
+$('out').innerHTML = '<div class="loading"><div class="spin"></div>Cargando base…</div>';
+fetch(DATA_FILE + '?v=' + Date.now(), { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); })
+.then(buf => { const bytes = new Uint8Array(buf); ORIG = new TextDecoder().decode(bytes); return gitBlobSha(bytes).then(sha => { S.loadedSha = sha; }); })
+.then(() => {
+  const draft = ss.get('samiTradDraft');
+  if (draft && draft.practicas) { load(draft); S.dirty = draft.dirty || 1; } else load(JSON.parse(ORIG));
+  refresh();
+  if (S.dirty) tryAuto();
+}).catch(() => {
+  $('out').innerHTML = '<div class="empty"><h3>No se pudo cargar la base de Traditum</h3>Revisá la conexión y recargá la página.</div>';
+  $('count').textContent = '';
+});
+})();
+</script>
+</body>
+</html>
