@@ -30391,5 +30391,14 @@
 {"id":30836,"centro":"Priority home","codigo":"","practica":"Visita de médico Clínico","valor":31870,"nota":""},
 {"id":30837,"centro":"Priority home","codigo":"","practica":"Visita de médico Paliativo","valor":51220,"nota":""},
 {"id":30838,"centro":"Priority home","codigo":"","practica":"Cuidadoras por hora","valor":3528,"nota":""},
-{"id":30839,"centro":"Priority home","codigo":"","practica":"Asistente Terapeutico","valor":10699,"nota":""}
+{"id":30839,"centro":"Priority home","codigo":"","practica":"Asistente Terapeutico","valor":10699,"nota":""},
+{"id":30840,"centro":"PROMEDICAL","codigo":"","practica":"MEDICO CLINICO","valor":15588,"nota":""},
+{"id":30841,"centro":"PROMEDICAL","codigo":"","practica":"ENFERMERIA PRESTACION","valor":9078,"nota":""},
+{"id":30842,"centro":"PROMEDICAL","codigo":"","practica":"CUIDADOR","valor":5616,"nota":""},
+{"id":30843,"centro":"PROMEDICAL","codigo":"","practica":"ACOMPAÑANTE TERAPEUTICO","valor":7153,"nota":""},
+{"id":30844,"centro":"PROMEDICAL","codigo":"","practica":"KINESIOLOGIA","valor":10566,"nota":""},
+{"id":30845,"centro":"PROMEDICAL","codigo":"","practica":"FONOAUDIOLOGIA","valor":9020,"nota":""},
+{"id":30846,"centro":"PROMEDICAL","codigo":"","practica":"ESTIMULACION TEMPRANA","valor":10566,"nota":""},
+{"id":30847,"centro":"PROMEDICAL","codigo":"","practica":"TERAPIA OCUPACIONAL","valor":10566,"nota":""},
+{"id":30848,"centro":"PROMEDICAL","codigo":"","practica":"GUARDIA DE ENFERMERIA","valor":5173,"nota":""}
 ]}
