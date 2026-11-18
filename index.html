@@ -43,6 +43,13 @@
         <p id="vig">Valores vigentes al <b>—</b></p>
       </div>
       <nav class="hnav" id="hnav" aria-label="Secciones"><a href="traditum.html">Ir a validador de Traditum →</a></nav>
+      <script>
+      /* Link para compartir sin el validador ni el acceso de administrador: agregar ?externo al final de la dirección */
+      if(/[?&]externo\b/.test(location.search)){
+        document.getElementById("hnav").remove();
+        var s=document.createElement("style");s.textContent="#admTab,#adminbar{display:none!important}";document.head.appendChild(s);
+      }
+      </script>
     </div>
     <div class="qwrap">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
