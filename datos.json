@@ -30379,5 +30379,17 @@
 {"id":30824,"centro":"OXYNET","codigo":"","practica":"TRANSPORTE CAPITAL FEDERAL","valor":4408,"nota":""},
 {"id":30825,"centro":"OXYNET","codigo":"","practica":"TRANSPORTE GRAN BUENOS AIRES","valor":6347,"nota":""},
 {"id":30826,"centro":"OXYNET","codigo":"","practica":"CONCENTRADOR PORTÁTIL (C-CARRO, CARGADOR Y BATERÍA)","valor":596140,"nota":""},
-{"id":30827,"centro":"OXYNET","codigo":"","practica":"ASPIRADOR PORTÁTIL A BATERÍA","valor":78484,"nota":""}
+{"id":30827,"centro":"OXYNET","codigo":"","practica":"ASPIRADOR PORTÁTIL A BATERÍA","valor":78484,"nota":""},
+{"id":30828,"centro":"Priority home","codigo":"","practica":"Enfermería domiciliaria por 1 hora Adultos","valor":7967,"nota":""},
+{"id":30829,"centro":"Priority home","codigo":"","practica":"Enfermería vestida para Curaciones","valor":10813,"nota":""},
+{"id":30830,"centro":"Priority home","codigo":"","practica":"Enfermería vestida para Aplicacion de ATB","valor":10813,"nota":""},
+{"id":30831,"centro":"Priority home","codigo":"","practica":"Kinesiología motora por sesión","valor":11496,"nota":""},
+{"id":30832,"centro":"Priority home","codigo":"","practica":"Kinesiología respiratoria por sesión","valor":11496,"nota":""},
+{"id":30833,"centro":"Priority home","codigo":"","practica":"Fonoaudiología por sesión","valor":11496,"nota":""},
+{"id":30834,"centro":"Priority home","codigo":"","practica":"T.O / Estimulación temprana por sesión","valor":11496,"nota":""},
+{"id":30835,"centro":"Priority home","codigo":"","practica":"Sesion de terapista ocupacional /estimulación temprana GBA","valor":13659,"nota":""},
+{"id":30836,"centro":"Priority home","codigo":"","practica":"Visita de médico Clínico","valor":31870,"nota":""},
+{"id":30837,"centro":"Priority home","codigo":"","practica":"Visita de médico Paliativo","valor":51220,"nota":""},
+{"id":30838,"centro":"Priority home","codigo":"","practica":"Cuidadoras por hora","valor":3528,"nota":""},
+{"id":30839,"centro":"Priority home","codigo":"","practica":"Asistente Terapeutico","valor":10699,"nota":""}
 ]}
