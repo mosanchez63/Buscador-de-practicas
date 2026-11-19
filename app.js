@@ -13,6 +13,10 @@ var ss = {get:function(k){try{return JSON.parse(sessionStorage.getItem(k))}catch
 /* ---------- normalización ---------- */
 function norm(s){ return String(s==null?"":s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\./g,""); }
 function toks(s){ return norm(s).split(/[^a-z0-9]+/).filter(Boolean); }
+// coincidencia de una palabra buscada dentro de una palabra de la práctica:
+// con 4+ letras se busca en cualquier parte («tiroglobulina» encuentra «antitiroglobulina»);
+// las más cortas solo al inicio, para no traer ruido («rx», «tac»).
+function tokHit(t, w){ return w.length>=4 ? t.indexOf(w)>=0 : t.indexOf(w)===0; }
 function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]}); }
 function prep(r){
   r.codigo = r.codigo==null ? "" : String(r.codigo);
@@ -42,7 +46,7 @@ function search(q, centro){
     var r=base[i], hit=0;
     for(var j=0;j<words.length;j++){
       var w=words[j], t=r._t;
-      for(var k=0;k<t.length;k++){ if(t[k].indexOf(w)===0){hit++;break;} }
+      for(var k=0;k<t.length;k++){ if(tokHit(t[k],w)){hit++;break;} }
     }
     if(hit===words.length) full.push(r);
     else if(hit>0){ r._h=hit; partial.push(r); }
@@ -81,7 +85,7 @@ function hl(text, words){
   return String(text).split(/([^\s/(),;:-]+)/).map(function(part){
     if(!part) return "";
     var n = norm(part).replace(/[^a-z0-9]/g,"");
-    for(var i=0;i<words.length;i++){ if(n && n.indexOf(words[i])===0) return "<mark>"+esc(part)+"</mark>"; }
+    for(var i=0;i<words.length;i++){ if(n && tokHit(n,words[i])) return "<mark>"+esc(part)+"</mark>"; }
     return esc(part);
   }).join("");
 }
