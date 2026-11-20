@@ -7868,7 +7868,7 @@
 {"id":8313,"centro":"Laboratorio Garciarena","codigo":"660939","practica":"VITAMINA E - ALFA TOCOFEROL","valor":17504,"nota":""},
 {"id":8314,"centro":"Laboratorio Garciarena","codigo":"660953","practica":"WIDAL,REACCION DE","valor":524,"nota":""},
 {"id":8315,"centro":"Laboratorio Garciarena","codigo":"660971","practica":"XILOSA-D-PRUEBA DE LA","valor":1214,"nota":""},
-{"id":8316,"centro":"Laboratorio Garciarena","codigo":"981","practica":"ZINC ERITROCITARIO","valor":555,"nota":""},
+{"id":8316,"centro":"Laboratorio Garciarena","codigo":"981","practica":"ZINC ERITROCITARIO","valor":"","nota":"presupuesto"},
 {"id":8317,"centro":"Laboratorio Garciarena","codigo":"663310","practica":"CALPROTECTINA","valor":54965,"nota":""},
 {"id":8318,"centro":"Laboratorio Garciarena","codigo":"","practica":"HISOPADO COVID","valor":90995,"nota":""},
 {"id":8319,"centro":"Laboratorio Garciarena","codigo":"669017","practica":"SELENIO","valor":7695,"nota":""},
