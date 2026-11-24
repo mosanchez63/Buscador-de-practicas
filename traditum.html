@@ -40,6 +40,12 @@ main{gap:12px}
 .tbadge.ok{background:var(--save-bg);color:var(--save)}
 .tnum{font-variant-numeric:tabular-nums;font-weight:700}
 .tnil{color:var(--muted)}
+/* Nota de la práctica */
+.tnota{padding:9px 16px;background:var(--mark);color:var(--mark-fg);font-size:14.5px;border-bottom:1px solid var(--line);white-space:pre-line;overflow-wrap:anywhere}
+.tnotebtn{height:34px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--accent);font-weight:600;font-size:13.5px;padding:0 10px;cursor:pointer;white-space:nowrap}
+.tnotebtn:hover{border-color:var(--accent)}
+.tcard header .tact{gap:6px;align-self:center}
+.fld textarea{resize:vertical;font:inherit}
 /* Modo administrador */
 .tact{display:flex;justify-content:flex-end;margin-left:auto}
 .admin-on .trow{grid-template-columns:minmax(0,1.6fr) 120px 190px 120px minmax(0,1fr) 40px}
@@ -122,7 +128,7 @@ main{gap:12px}
    La base está en traditum.json:
      planes   : nombres de los planes
      config   : combinaciones [autoriza, copago, diario, semanal, mensual, trimestral, semestral, anual]
-     practicas: [código, descripción, [[planes (máscara de bits), config guardia, config ambulatorio], …]]
+     practicas: [código, descripción, [[planes (máscara de bits), config guardia, config ambulatorio], …], nota (opcional)]
    El modo administrador usa la misma clave (token de GitHub) que el buscador de centros. */
 (function(){
 "use strict";
@@ -150,7 +156,7 @@ let IDX = [], matches = [], cfgKey = new Map();
 /* ---------- modelo ---------- */
 function load(db){
   S.planes = db.planes.slice(); S.config = db.config.map(c => c.slice());
-  S.pr = db.practicas.map(p => [String(p[0]), String(p[1]), p[2].map(g => g.slice())]);
+  S.pr = db.practicas.map(p => [String(p[0]), String(p[1]), p[2].map(g => g.slice()), p[3] ? String(p[3]) : '']);
   S.actualizado = db.actualizado || '';
   cfgKey = new Map(S.config.map((c, i) => [c.join(','), i]));
   reindex();
@@ -196,7 +202,7 @@ function addPlan(name, from){
 function dataText(){
   const used = new Map(), cfg = [];
   const ix = c => { if (c < 0) return -1; if (!used.has(c)) { used.set(c, cfg.length); cfg.push(S.config[c]); } return used.get(c); };
-  const rows = S.pr.map(p => JSON.stringify([p[0], p[1], p[2].map(g => [g[0], ix(g[1]), ix(g[2])])]));
+  const rows = S.pr.map(p => { const r = [p[0], p[1], p[2].map(g => [g[0], ix(g[1]), ix(g[2])])]; if (p[3]) r.push(p[3]); return JSON.stringify(r); });
   return '{"actualizado":' + JSON.stringify(S.actualizado) + ',"planes":' + JSON.stringify(S.planes) + ',"config":' + JSON.stringify(cfg) + ',"practicas":[\n' + rows.join(',\n') + '\n]}\n';
 }
 
@@ -224,8 +230,15 @@ function card(p, planSel){
   const h = el('header');
   h.appendChild(el('span', 'tcod', p[0]));
   h.appendChild(el('span', 'tnom', p[1]));
-  if (S.admin) { const a = el('span', 'tact'); a.appendChild(icoBtn('Editar código y descripción', () => openPractica(p))); h.appendChild(a); }
+  if (S.admin) {
+    const a = el('span', 'tact');
+    const nb = el('button', 'tnotebtn', p[3] ? 'Editar nota' : '+ Nota'); nb.type = 'button'; nb.onclick = () => openNota(p);
+    a.appendChild(nb);
+    a.appendChild(icoBtn('Editar código y descripción', () => openPractica(p)));
+    h.appendChild(a);
+  }
   c.appendChild(h);
+  if (p[3]) { const n = el('div', 'tnota'); n.appendChild(el('b', '', 'Nota: ')); n.appendChild(document.createTextNode(p[3])); c.appendChild(n); }
   const head = el('div', 'trow head');
   ['Plan', 'Admisión', 'Autorización', 'Copago', 'Tope'].forEach(t => head.appendChild(el('div', '', t)));
   if (S.admin) head.appendChild(el('div'));
@@ -494,6 +507,19 @@ function openValores(p, mask, kind, ci){
     setCfg(p, m, $('vAdm').value, intern(c)); markDirty(); closeModal(); render(); toast('Valores guardados');
   });
 }
+function openNota(p){
+  modal(hdr(p[3] ? 'Editar nota' : 'Agregar nota') +
+    '<form id="fNota"><div class="note-ro"><b>' + esc(p[0]) + '</b> · ' + esc(p[1]) + '</div>' +
+    '<div class="fld"><label for="nTxt">Nota</label><textarea id="nTxt" rows="4" maxlength="500" placeholder="Ej.: requiere orden médica con diagnóstico">' + esc(p[3]) + '</textarea><small>Se muestra debajo del código para todos los que consultan el validador.</small></div>' +
+    '<div class="err" id="err"></div><div class="acts">' + (p[3] ? '<button class="btn dng" type="button" id="nDel" style="margin-right:auto">Borrar nota</button>' : '') + '<button class="btn" type="button" data-close>Cancelar</button><button class="btn pri" type="submit">Guardar</button></div></form>');
+  if (p[3]) $('nDel').onclick = () => { p[3] = ''; markDirty(); closeModal(); render(); toast('Nota borrada'); };
+  $('fNota').addEventListener('submit', e => {
+    e.preventDefault();
+    const t = $('nTxt').value.trim().replace(/[ \t]+/g, ' ');
+    if (t === p[3]) { closeModal(); return; }
+    p[3] = t; markDirty(); closeModal(); render(); toast(t ? 'Nota guardada' : 'Nota borrada');
+  });
+}
 function codeTaken(code, except){ return S.pr.some(x => x !== except && x[0] === code); }
 function openPractica(p){
   const nuevo = !p;
@@ -517,7 +543,7 @@ function openPractica(p){
     if (nuevo) {
       const c = readValores([]);
       if (!c) { $('err').textContent = 'Copago y topes tienen que ser números enteros (0 o más).'; return; }
-      const ci = intern(c); S.pr.push([cod, nom, [[allMask(), ci, ci]]]);
+      const ci = intern(c); S.pr.push([cod, nom, [[allMask(), ci, ci]], '']);
       $('q').value = cod;
     } else { p[0] = cod; p[1] = nom; }
     reindex(); markDirty(); closeModal(); S.shown = PAGE; search(); toast(nuevo ? 'Práctica agregada' : 'Práctica guardada');
